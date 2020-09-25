@@ -1,6 +1,8 @@
 import cv2  
 import dlib 
 import pyttsx3
+from playsound import playsound
+
 
 engine = pyttsx3.init()
 
@@ -31,4 +33,5 @@ while True:
     cv2.imshow("Frame", frame) 
     key = cv2.waitKey(1)
     if key == 27: 
+        playsound('audio.mp3') # one needs to upload the beep sound in an mp3 file and store it
         break
