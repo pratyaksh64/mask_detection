@@ -1,33 +1,21 @@
 import cv2
 import dlib
 import os
-from pydrive.drive import GoogleDrive
-from pydrive.auth import GoogleAuth
 from imutils.video import WebcamVideoStream
 import time
+
 
 class VideoCamera(object):
     def __init__(self):
         self.stream = WebcamVideoStream(src=0).start()
-        self.gauth = GoogleAuth()
-        self.gauth.LoadCredentialsFile("mycreds_1.txt")
-
-
-        if self.gauth.credentials is None:
-            self.gauth.LocalWebserverAuth()
-        elif self.gauth.access_token_expired:
-            self.gauth.Refresh()
-        else:
-            self.gauth.Authorize()
-        self.gauth.SaveCredentialsFile("mycreds_1.txt")
-        self.drive = GoogleDrive(self.gauth)
-        self.folderName = '24'
+        
+        self.folderName = '38'
         self.n_folderName = self.folderName
         self.path = r"/home/asus/Desktop/mask_recog/without_mask2/{}".format(self.n_folderName)
         os.mkdir(self.path)
-        self.file1 = self.drive.CreateFile(
-            {'title': self.folderName, 'mimeType': 'application/vnd.google-apps.folder'})
-        self.file1.Upload()
+        
+        
+
 
     def __del__(self):
         self.stream.stop()
@@ -72,7 +60,10 @@ class VideoCamera(object):
                 continue
 
         
-        _, jpeg = cv2.imencode('.jpg', self.frame)
-        data = []
-        data.append(jpeg.tobytes())
-        return data
+        _, self.jpeg = cv2.imencode('.jpg', self.frame)
+        self.data = []
+        self.data.append(self.jpeg.tobytes())
+
+        return self.data
+
+    
